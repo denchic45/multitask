@@ -1,1 +1,0 @@
-[{"pkgName":"cl-user","text":"(multitask:hello)"},{"pkgName":"cl-user","text":"(ql:quickload \"multitask\")"},{"pkgName":"cl-user","text":"(ql:register-local-projects) (ql:quickload \"multitask\")"},{"pkgName":"cl-user","text":"(ql:load \"multitask\")"}]
