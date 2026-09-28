@@ -1,8 +1,8 @@
 ;;;; package.lisp
 
-(defpackage #:multitask
+(defpackage #:threads
   (:use #:cl)
-  (:nicknames #:mt)
+  (:nicknames #:th)
   (:export
    ;; Условия ошибок
    #:base-error
@@ -22,8 +22,5 @@
    #:thread-spawn
    #:thread-yield
    #:thread-wait
-   #:thread-notify
-   #:thread-join
    #:thread-kill
-   #:thread-sleep
    #:current-thread))
