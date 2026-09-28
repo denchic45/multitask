@@ -1,15 +1,15 @@
 ;;;; API для библиотеки зеленых потоков
 
-(in-package #:multitask)
+(in-package #:threads)
 
 ;;; Условия ошибок (Conditions)
 
 (define-condition base-error (error)
   ((message :initarg :message :reader base-error-message :initform nil))
   (:report (lambda (condition stream)
-             (format stream "Multitask error: ~a"
+             (format stream "Threads error: ~a"
                      (or (base-error-message condition) "unspecified error"))))
-  (:documentation "Базовое условие для всех ошибок библиотеки multitask."))
+  (:documentation "Базовое условие для всех ошибок."))
 
 (define-condition not-implemented-error (base-error)
   ((feature-name :initarg :feature-name :reader not-implemented-feature-name :initform "Операция"))
@@ -46,8 +46,7 @@
   (name nil :type (or null string symbol))
   (state :created :type symbol) ; :created, :runnable, :running, :waiting, :dead
   (result nil :type t)
-  (function nil :type (or null function))
-  (notified-p nil :type boolean))
+  (function nil :type (or null function)))
 
 ;;; Динамические переменные контекста
 
@@ -73,7 +72,7 @@
   "Возвращает текущий исполняемый зеленый поток или NIL, если вызов происходит вне потока."
   *current-thread*)
 
-(defun thread-join (thread &key timeout)
+(defun thread-wait (thread &key timeout)
   "Блокирует текущий зеленый поток до тех пор, пока целевой поток THREAD не завершится.
 Параметры:
   - THREAD: объект целевого потока.
@@ -81,24 +80,7 @@
 Возвращает результат вычисления потока (thread-result).
 Сигнализирует TIMEOUT-ERROR при превышении времени ожидания."
   (declare (ignorable thread timeout))
-  (%not-implemented "thread-join"))
-
-(defun thread-wait (&key timeout)
-  "Приостанавливает выполнение текущего зеленого потока до явного уведомления
-через THREAD-NOTIFY или до истечения времени TIMEOUT в секундах.
-Если TIMEOUT не задан (NIL), ожидание длится бесконечно.
-При наступлении таймаута поток продолжает работу (не завершается).
-Возвращает T, если поток был разбужен уведомлением, или NIL, если истек таймаут."
-  (declare (ignorable timeout))
   (%not-implemented "thread-wait"))
-
-(defun thread-notify (thread)
-  "Будит указанный зеленый поток THREAD, переводя его из состояния ожидания :WAITING
-обратно в состояние готовности :RUNNABLE. Если целевой поток еще выполняется,
-ему выставляется токен готовности, предотвращающий потерю уведомления (lost wakeup).
-Возвращает T."
-  (declare (ignorable thread))
-  (%not-implemented "thread-notify"))
 
 (defun thread-kill (thread)
   "Принудительно переводит зеленый поток THREAD в состояние :DEAD."
@@ -109,11 +91,3 @@
   "Возвращает T, если поток THREAD существует и еще не завершил выполнение (:RUNNABLE, :RUNNING, :WAITING)."
   (and (thread-p thread)
        (member (thread-state thread) '(:created :runnable :running :waiting) :test #'eq)))
-
-;;; Приостановка потока (Sleep API)
-
-(defun thread-sleep (seconds)
-  "Приостанавливает выполнение текущего зеленого потока на SECONDS секунд без
-блокировки нативного потока ОС. По истечении таймера поток становится :RUNNABLE."
-  (declare (ignorable seconds))
-  (%not-implemented "thread-sleep"))
