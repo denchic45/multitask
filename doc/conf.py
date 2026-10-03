@@ -1,6 +1,3 @@
-import os
-import sys
-
 project = 'threads'
 copyright = '2026, Threads Project'
 author = 'denchic45'
@@ -19,7 +16,5 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 language = 'ru'
 
 html_theme = 'alabaster'
-html_static_path = ['_static']
-
 pygments_style = 'sphinx'
 highlight_language = 'common-lisp'

@@ -4,11 +4,8 @@
   (:use #:cl)
   (:nicknames #:th)
   (:export
-   ;; Условия ошибок
-   #:base-error
-   #:thread-error
-   #:timeout-error
-   #:not-implemented-error
+   ;; Заглушки
+   #:not-implemented
 
    ;; Зеленые потоки (Green Threads)
    #:*current-thread*
